@@ -122,11 +122,13 @@ export default class ConfirmationCodeInput extends Component {
 	}
 
 	_onKeyPress = (e) => {
-		if (e.nativeEvent.key === 'Backspace') {
+		// workaround for https://github.com/facebook/react-native/issues/18374
+		if (e.nativeEvent.key === 'Backspace' && this.previousTarget !== e.nativeEvent.target) {
 			const {currentIndex} = this.state
 			const nextIndex = currentIndex > 0 ? currentIndex - 1 : 0
 			this._setFocus(nextIndex)
 		}
+		this.previousTarget = e.nativeEvent.target
 	}
 
 	_onInputCode = index => character => {
@@ -201,4 +203,3 @@ const styles = StyleSheet.create({
 		padding: 0,
 	},
 })
-	
